@@ -30,6 +30,8 @@ newtype Note = Note String
 
 newtype Generator = Generator { runGenerator :: TFGen -> Freq -> Duration -> Samples }
 
+newtype Envelope = Envelope { runEnvelope :: Duration -> Samples }
+
 pitch :: Note -> Freq
 pitch (Note note0) | (letter : octave : mbModifier) <- note0 =
   let
@@ -70,3 +72,9 @@ add = (Samples .) . go `on` getSamples
       in s : go ss1 ss2
     go [] ss = ss
     go ss [] = ss
+
+sampleRate :: Double
+sampleRate = 44100
+
+durationToNSamples :: Duration -> Int
+durationToNSamples (Duration dur) = round $ sampleRate * dur

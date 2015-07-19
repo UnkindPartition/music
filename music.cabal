@@ -22,13 +22,15 @@ executable music
     DSL
     Encode
     Main
+    Envelope.ADSR
   other-extensions:    GeneralizedNewtypeDeriving
   build-depends:
     base,
     tf-random,
     transformers,
     bytestring,
-    binary
+    binary,
+    tuples-homogenous-h98
   -- hs-source-dirs:      
   default-language:    Haskell2010
   default-extensions:
