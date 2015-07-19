@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -fno-warn-unused-imports -fno-warn-missing-signatures #-}
 module Main where
 
 import System.Random.TF.Init

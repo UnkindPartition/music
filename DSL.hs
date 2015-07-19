@@ -1,7 +1,6 @@
 module DSL where
 
 import Data.Monoid
-import System.Random.TF.Gen
 import Control.Monad.Trans.Writer
 import Control.Applicative
 import Types

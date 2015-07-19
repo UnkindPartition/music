@@ -10,5 +10,5 @@ generatorSin = Generator $ \_ (Freq freq) (Duration duration) ->
   in
     Samples $ concat $ replicate (round periods) $
       [ Sample $ sin (2 * pi * fromIntegral n / samples_in_period)
-      | n <- [0..round samples_in_period - 1]
+      | n :: Int <- [0..round samples_in_period - 1]
       ]
