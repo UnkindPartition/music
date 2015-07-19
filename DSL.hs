@@ -16,6 +16,13 @@ instance Monoid Melody where
   mempty = Empty
   mappend = Then
 
+melodyDuration :: Melody -> Duration
+melodyDuration = \case
+  Par m1 m2 -> max (melodyDuration m1) (melodyDuration m2)
+  Then m1 m2 -> melodyDuration m1 + melodyDuration m2
+  Mono _ d -> d
+  Empty -> 0
+
 ----------------------------------------------------------------------
 --                           Monadic DSL
 ----------------------------------------------------------------------
@@ -31,3 +38,11 @@ chord notes dur = MelodyM (tell $ foldr Par Empty $ map (flip Mono dur) notes)
 
 runMelodyM :: MelodyM () -> Melody
 runMelodyM (MelodyM a) = execWriter a
+
+checkStave :: Duration -> String -> MelodyM () -> MelodyM ()
+checkStave duration name a@(runMelodyM -> m) =
+  let actualDuration = melodyDuration m in
+  if (actualDuration == duration)
+    then a
+    else
+      error $ "Duration of stave " ++ name ++ " is " ++ show actualDuration

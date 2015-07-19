@@ -45,4 +45,5 @@ executable music
     BangPatterns
     OverloadedStrings
     RecordWildCards
+    ViewPatterns
   ghc-options: -Wall
