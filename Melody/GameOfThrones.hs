@@ -3,6 +3,12 @@ module Melody.GameOfThrones where
 import DSL
 import Control.Monad
 
+gameOfThrones = Par treble bass
+
+----------------------------------------------------------------------
+--                           Treble
+----------------------------------------------------------------------
+
 pat1 = do
       mono "g4" 1
       mono "c4" 1
@@ -37,7 +43,7 @@ stave1 = do
       chord ["g3", "e4b"] 0.5
       chord ["g3", "f4"] 0.5
 
-gameOfThrones = runMelodyM $ do
+treble = runMelodyM $ do
       -- 1st stave
       pat1
       pat1
@@ -73,3 +79,61 @@ gameOfThrones = runMelodyM $ do
 
       -- 8th stave
       replicateM_ 4 pat3
+
+----------------------------------------------------------------------
+--                           Bass
+----------------------------------------------------------------------
+
+bass_pat_cg =
+      replicateM_ 12 $
+        chord ["c3", "g3"] 1
+
+bass = runMelodyM $ do
+      -- 1st stave
+      bass_pat_cg
+
+      -- 2nd stave
+      replicateM_ 12 $
+        chord ["c2", "c3"] 1
+
+      -- 3rd stave
+      chord ["c2", "c3"] 1
+      mono "c2" 0.5
+      mono "c3" 0.5
+      mono "g2" 0.5
+      mono "c2" 0.5
+
+      mono "c3" 1
+      mono "c2" 0.5
+      mono "c3" 0.5
+      mono "g2" 0.5
+      mono "c2" 0.5
+
+      replicateM_ 2 $ do
+        mono "c3" 0.5
+        mono "g2" 0.5
+        mono "c2" 0.5
+
+      replicateM_ 3 $ do
+        chord ["c2", "c3"] 1
+      
+      -- 4th stave
+      replicateM_ 12 $
+        chord ["g2", "d3"] 1
+
+      -- 5th stave
+      replicateM_ 2 $ do
+        mono "b3b" 1
+        mono "b2b" 0.5
+        mono "b3b" 0.5
+        mono "f2" 0.5
+        mono "b2b" 0.5
+
+
+      replicateM_ 2 $ do
+        mono "b3b" 0.5
+        mono "f2" 0.5
+        mono "b2b" 0.5
+
+      replicateM_ 3 $ do
+        chord ["b2b", "b3b"] 1
