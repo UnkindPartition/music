@@ -7,7 +7,7 @@ import Data.Int
 import Data.String
 
 newtype Freq = Freq Double
-  deriving (Eq, Ord, Real, Num, Fractional, Show)
+  deriving (Eq, Ord, Real, Num, Fractional, RealFrac, Show)
 
 newtype Sample = Sample { getSample :: Double }
   deriving (Eq, Ord, Real, Num, Fractional, Show)

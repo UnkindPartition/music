@@ -23,11 +23,15 @@ executable music
     Encode
     Main
     Envelope.ADSR
+    Generator.Rand
+    Generator.Sin
+    Generator.KarplusStrong
   other-extensions:    GeneralizedNewtypeDeriving
   build-depends:
     base,
     tf-random,
     transformers,
+    containers,
     bytestring,
     binary,
     tuples-homogenous-h98
