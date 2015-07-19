@@ -22,5 +22,5 @@ envelopeADSR attackDur decayDur sustainLev releaseDur = Envelope $ \totalDur ->
     sustainPart ns = replicate ns sustainLev
     releasePart ns = [ sustainLev * Sample (fromIntegral (ns-n) / fromIntegral ns) | n <- [0..ns-1]]
   in
-    Samples $ fold $
+    Samples $ take (durationToNSamples totalDur) . fold $
       Tuple4 (attackPart, decayPart, sustainPart, releasePart) <*> nsamples
