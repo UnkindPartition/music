@@ -8,6 +8,7 @@ data MixSettings = MixSettings
   { mixGenerator :: Generator
   , mixTempo :: Double
   , mixLoudness :: Double -- from 0 to 1
+  , mixEnvelope :: Envelope
   }
 
 mix :: MixSettings -> TFGen -> Melody -> Samples
@@ -23,9 +24,12 @@ mix MixSettings{..} = go where
         (g1, g2) = split g
       in add (go g1 m1) (go g2 m2)
     Mono note duration ->
+      applyEnvelope duration .
       applyLoudness $
       runGenerator mixGenerator g (pitch note) (duration * Duration mixTempo)
     where
       applyLoudness = 
         Samples . map (Sample . (* mixLoudness) . getSample) . getSamples
-
+      applyEnvelope duration =
+        let Samples e = runEnvelope mixEnvelope duration
+        in Samples . zipWith (*) e . getSamples
