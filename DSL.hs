@@ -19,6 +19,7 @@ data Melody
   | Mono Note Duration
   | Empty
   | Apply MixSettings Melody
+  | Mult Sample Melody
   deriving Show
 
 instance Monoid Melody where
@@ -32,6 +33,7 @@ melodyDuration = \case
   Mono _ d -> d
   Empty -> 0
   Apply _ m -> melodyDuration m
+  Mult _ m -> melodyDuration m
 
 ----------------------------------------------------------------------
 --                           Monadic DSL

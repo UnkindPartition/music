@@ -22,6 +22,7 @@ mix sets@MixSettings{..} g = \case
     applyLoudness $
     runGenerator mixGenerator g (pitch note) (duration * Duration mixTempo)
   Apply sets' m -> mix sets' g m
+  Mult f m -> Samples . map (* f) . getSamples $ mix sets g m
   where
     applyLoudness = 
       Samples . map (Sample . (* mixLoudness) . getSample) . getSamples
