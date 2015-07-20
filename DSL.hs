@@ -20,6 +20,7 @@ data Melody
   | Empty
   | Apply MixSettings Melody
   | Mult Sample Melody
+  | Silence Duration
   deriving Show
 
 instance Monoid Melody where
@@ -34,6 +35,7 @@ melodyDuration = \case
   Empty -> 0
   Apply _ m -> melodyDuration m
   Mult _ m -> melodyDuration m
+  Silence d -> d
 
 ----------------------------------------------------------------------
 --                           Monadic DSL
@@ -47,6 +49,9 @@ mono note dur = MelodyM (tell $ Mono note dur)
 
 chord :: [Note] -> Duration -> MelodyM ()
 chord notes dur = MelodyM (tell $ foldr Par Empty $ map (flip Mono dur) notes)
+
+silence :: Duration -> MelodyM ()
+silence dur = MelodyM $ tell $ Silence dur
 
 runMelodyM :: MelodyM () -> Melody
 runMelodyM (MelodyM a) = execWriter a
