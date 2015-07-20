@@ -5,11 +5,20 @@ import Control.Monad.Trans.Writer
 import Control.Applicative
 import Types
 
+data MixSettings = MixSettings
+  { mixGenerator :: Generator
+  , mixTempo :: Double
+  , mixLoudness :: Double -- from 0 to 1
+  , mixEnvelope :: Envelope
+  }
+instance Show MixSettings where show _ = "<settings>"
+
 data Melody
   = Par Melody Melody
   | Then Melody Melody
   | Mono Note Duration
   | Empty
+  | Apply MixSettings Melody
   deriving Show
 
 instance Monoid Melody where
@@ -22,6 +31,7 @@ melodyDuration = \case
   Then m1 m2 -> melodyDuration m1 + melodyDuration m2
   Mono _ d -> d
   Empty -> 0
+  Apply _ m -> melodyDuration m
 
 ----------------------------------------------------------------------
 --                           Monadic DSL
