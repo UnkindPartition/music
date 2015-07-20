@@ -53,6 +53,9 @@ chord notes dur = MelodyM (tell $ foldr Par Empty $ map (flip Mono dur) notes)
 silence :: Duration -> MelodyM ()
 silence dur = MelodyM $ tell $ Silence dur
 
+par :: MelodyM () -> MelodyM () -> MelodyM ()
+par m1 m2 = MelodyM $ tell $ Par (runMelodyM m1) (runMelodyM m2)
+
 runMelodyM :: MelodyM () -> Melody
 runMelodyM (MelodyM a) = execWriter a
 
