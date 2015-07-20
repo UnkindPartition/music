@@ -4,7 +4,7 @@ module Melody.GameOfThrones where
 import DSL
 import Control.Monad
 
-gameOfThrones = Par treble bass
+gameOfThrones = Par treble (Mult 0.5 bass)
 
 stave = checkStave 12
 
